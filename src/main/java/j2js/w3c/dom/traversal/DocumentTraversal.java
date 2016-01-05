@@ -10,10 +10,10 @@
  * See W3C License http://www.w3.org/Consortium/Legal/ for more details.
  */
 
-package org.w3c.dom.traversal;
+package j2js.w3c.dom.traversal;
 
-import org.w3c.dom5.DOMException;
-import org.w3c.dom5.Node;
+import j2js.w3c.dom.DOMException;
+import j2js.w3c.dom.Node;
 
 /**
  * <code>DocumentTraversal</code> contains methods that create 
@@ -41,7 +41,8 @@ public interface DocumentTraversal {
      *   <code>NodeFilter</code> for the set of possible <code>SHOW_</code> 
      *   values.These flags can be combined using <code>OR</code>.
      * @param filter The <code>NodeFilter</code> to be used with this 
-     *   <code>TreeWalker</code>, or <code>null</code> to indicate no filter.
+     *   <code>NodeIterator</code>, or <code>null</code> to indicate no 
+     *   filter.
      * @param entityReferenceExpansion The value of this flag determines 
      *   whether entity reference nodes are expanded.
      * @return The newly created <code>NodeIterator</code>.

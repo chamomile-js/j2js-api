@@ -10,9 +10,9 @@
  * See W3C License http://www.w3.org/Consortium/Legal/ for more details.
  */
 
-package org.w3c.dom.stylesheets;
+package j2js.w3c.dom.stylesheets;
 
-import org.w3c.dom5.DOMException;
+import j2js.w3c.dom.DOMException;
 
 /**
  *  The <code>MediaList</code> interface provides the abstraction of an 
@@ -28,13 +28,17 @@ public interface MediaList {
     /**
      *  The parsable textual representation of the media list. This is a 
      * comma-separated list of media. 
+     */
+    public String getMediaText();
+    /**
+     *  The parsable textual representation of the media list. This is a 
+     * comma-separated list of media. 
      * @exception DOMException
      *   SYNTAX_ERR: Raised if the specified string value has a syntax error 
      *   and is unparsable.
      *   <br>NO_MODIFICATION_ALLOWED_ERR: Raised if this media list is 
      *   readonly.
      */
-    public String getMediaText();
     public void setMediaText(String mediaText)
                              throws DOMException;
 
@@ -48,7 +52,7 @@ public interface MediaList {
      *  Returns the <code>index</code>th in the list. If <code>index</code> is 
      * greater than or equal to the number of media in the list, this 
      * returns <code>null</code>. 
-     * @param index Index into the collection. 
+     * @param index  Index into the collection. 
      * @return  The medium at the <code>index</code>th position in the 
      *   <code>MediaList</code>, or <code>null</code> if that is not a valid 
      *   index. 
@@ -57,7 +61,7 @@ public interface MediaList {
 
     /**
      *  Deletes the medium indicated by <code>oldMedium</code> from the list. 
-     * @param oldMediumThe medium to delete in the media list.
+     * @param oldMedium The medium to delete in the media list.
      * @exception DOMException
      *    NO_MODIFICATION_ALLOWED_ERR: Raised if this list is readonly. 
      *   <br> NOT_FOUND_ERR: Raised if <code>oldMedium</code> is not in the 
@@ -69,7 +73,7 @@ public interface MediaList {
     /**
      *  Adds the medium <code>newMedium</code> to the end of the list. If the 
      * <code>newMedium</code> is already used, it is first removed. 
-     * @param newMediumThe new medium to add.
+     * @param newMedium The new medium to add.
      * @exception DOMException
      *    INVALID_CHARACTER_ERR: If the medium contains characters that are 
      *   invalid in the underlying style language. 

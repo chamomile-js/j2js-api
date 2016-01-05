@@ -10,15 +10,16 @@
 
 package j2js.net;
 
-import j2js.Global;
+import com.j2js.prodmode.net.XMLHttpRequest;
 
-import org.w3c.dom5.css.CSSStyleDeclaration;
-import org.w3c.dom5.html.HTMLCollection;
-import org.w3c.dom5.html.HTMLDocument;
-import org.w3c.dom5.html.HTMLElement;
-import org.w3c.dom5.html.HTMLFormElement;
-import org.w3c.dom5.html.HTMLIFrameElement;
-import org.w3c.dom5.html.HTMLInputElement;
+import j2js.Global;
+import j2js.w3c.dom.css.CSSStyleDeclaration;
+import j2js.w3c.dom.html.HTMLCollection;
+import j2js.w3c.dom.html.HTMLDocument;
+import j2js.w3c.dom.html.HTMLElement;
+import j2js.w3c.dom.html.HTMLFormElement;
+import j2js.w3c.dom.html.HTMLIFrameElement;
+import j2js.w3c.dom.html.HTMLInputElement;
 
 /**
  * The FormHttpRequest sends HTTP POST requests by submitting a client side form.
@@ -116,9 +117,9 @@ public class FormHttpRequest extends HtmlHttpRequest {
             frame.setName("REMOTE_AGENT_FRAME");
         }
         CSSStyleDeclaration style = frame.getStyle();
-        style.setPosition("absolute");
+// XXX (ggeorg)        style.setPosition("absolute");
         // Best not to use display:none. Frame may be ignored!
-        style.setVisibility("hidden");
+// XXX (ggeorg)        style.setVisibility("hidden");
         
         // Note: Source may or may not exist. If a 404 response is fastes, then choose the latter.
         frame.setSrc("postBlank.html");

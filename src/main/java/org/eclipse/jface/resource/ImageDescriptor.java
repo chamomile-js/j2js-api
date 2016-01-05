@@ -4,7 +4,8 @@ import java.net.URL;
 
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
-import org.w3c.dom5.html.HTMLImageElement;
+
+import j2js.w3c.dom.html.HTMLImageElement;
 
 /**
  * An image descriptor is an object that knows how to create an SWT image.

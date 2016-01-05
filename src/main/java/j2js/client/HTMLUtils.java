@@ -14,19 +14,18 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import j2js.Global;
-
 import org.eclipse.swt.graphics.Point;
-import org.w3c.dom.svg.GetSVGDocument;
-import org.w3c.dom5.Element;
-import org.w3c.dom5.Node;
-import org.w3c.dom5.NodeList;
-import org.w3c.dom5.css.CSSStyleDeclaration;
-import org.w3c.dom5.events.Event;
-import org.w3c.dom5.events.MouseEvent;
-import org.w3c.dom5.html.HTMLDocument;
-import org.w3c.dom5.html.HTMLElement;
-import org.w3c.dom5.html.HTMLPreElement;
+
+import j2js.Global;
+import j2js.w3c.dom.Element;
+import j2js.w3c.dom.Node;
+import j2js.w3c.dom.NodeList;
+import j2js.w3c.dom.css.CSSStyleDeclaration;
+import j2js.w3c.dom.events.Event;
+import j2js.w3c.dom.events.MouseEvent;
+import j2js.w3c.dom.html.HTMLDocument;
+import j2js.w3c.dom.html.HTMLElement;
+import j2js.w3c.dom.html.HTMLPreElement;
 
 /**
  * Utility class for accessing and manipulating the DOM.

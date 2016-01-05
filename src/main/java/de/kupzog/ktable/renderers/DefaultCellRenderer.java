@@ -12,15 +12,13 @@ Lorenz Maierhofer, lorenz.maierhofer@logicmindguide.com
 */
 package de.kupzog.ktable.renderers;
 
-import j2js.Global;
-
-import org.w3c.dom5.Text;
-import org.w3c.dom5.html.HTMLDocument;
-import org.w3c.dom5.html.HTMLElement;
-import org.w3c.dom5.html.HTMLTableCellElement;
-
 import de.kupzog.ktable.KTableCellRenderer;
 import de.kupzog.ktable.KTableModel;
+import j2js.Global;
+import j2js.w3c.dom.Text;
+import j2js.w3c.dom.html.HTMLDocument;
+import j2js.w3c.dom.html.HTMLElement;
+import j2js.w3c.dom.html.HTMLTableCellElement;
 
 
 /**

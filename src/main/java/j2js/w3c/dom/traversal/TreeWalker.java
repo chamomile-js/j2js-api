@@ -10,10 +10,10 @@
  * See W3C License http://www.w3.org/Consortium/Legal/ for more details.
  */
 
-package org.w3c.dom.traversal;
+package j2js.w3c.dom.traversal;
 
-import org.w3c.dom5.DOMException;
-import org.w3c.dom5.Node;
+import j2js.w3c.dom.DOMException;
+import j2js.w3c.dom.Node;
 
 /**
  * <code>TreeWalker</code> objects are used to navigate a document tree or 
@@ -83,9 +83,6 @@ public interface TreeWalker {
      * <code>currentNode</code> even if it is not part of the current view, 
      * by applying the filters in the requested direction; if no traversal 
      * is possible, <code>currentNode</code> is not changed. 
-     * @exception DOMException
-     *   NOT_SUPPORTED_ERR: Raised if an attempt is made to set 
-     *   <code>currentNode</code> to <code>null</code>.
      */
     public Node getCurrentNode();
     /**

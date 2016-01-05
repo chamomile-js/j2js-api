@@ -1,8 +1,6 @@
 package j2js.net;
 
-import org.w3c.dom5.events.Event;
-
-import j2js.net.HttpRequest;
+import j2js.w3c.dom.events.Event;
 
 public interface NetworkEvent extends Event {
     

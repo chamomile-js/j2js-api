@@ -1,8 +1,8 @@
 
-package org.w3c.dom.svg;
+package j2js.w3c.dom.svg;
 
-import org.w3c.dom5.DOMException;
-import org.w3c.dom5.Element;
+import j2js.w3c.dom.DOMException;
+import j2js.w3c.dom.Element;
 
 public interface SVGElement extends 
                Element {

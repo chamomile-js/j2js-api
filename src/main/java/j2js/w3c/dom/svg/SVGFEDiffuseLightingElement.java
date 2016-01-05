@@ -1,5 +1,4 @@
-
-package org.w3c.dom.svg;
+package j2js.w3c.dom.svg;
 
 public interface SVGFEDiffuseLightingElement extends 
                SVGElement,

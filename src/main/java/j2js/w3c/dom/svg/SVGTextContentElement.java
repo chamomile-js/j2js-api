@@ -1,8 +1,8 @@
 
-package org.w3c.dom.svg;
+package j2js.w3c.dom.svg;
 
-import org.w3c.dom5.DOMException;
-import org.w3c.dom5.events.EventTarget;
+import j2js.w3c.dom.DOMException;
+import j2js.w3c.dom.events.EventTarget;
 
 public interface SVGTextContentElement extends 
                SVGElement,

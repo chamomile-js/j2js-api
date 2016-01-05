@@ -1,6 +1,6 @@
 package org.eclipse.swt.graphics;
 
-import org.w3c.dom5.html.HTMLImageElement;
+import j2js.w3c.dom.html.HTMLImageElement;
 
 /**
  * Instances of this class are graphics which have been prepared for display on a specific device.
@@ -18,7 +18,8 @@ public class Image {
       * x and y values of 0.
       */
      public Rectangle getBounds() {
-         return new Rectangle(0, 0, imageElement.getWidth(), imageElement.getHeight());
+         return null;
+         // XXX (ggeorg) new Rectangle(0, 0, imageElement.getWidth(), imageElement.getHeight());
      }
 }
 

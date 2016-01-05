@@ -11,9 +11,8 @@
 package com.j2js.prodmode.net;
 
 import j2js.net.HtmlHttpRequest;
-
-import org.w3c.dom5.Element;
-import org.w3c.dom5.html.HTMLScriptElement;
+import j2js.w3c.dom.Element;
+import j2js.w3c.dom.html.HTMLScriptElement;
 
 /**
  * The ScriptHttpRequest sends HTTP GET requests through client side script loading.

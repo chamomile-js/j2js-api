@@ -18,17 +18,18 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
-import org.w3c.dom5.Node;
-import org.w3c.dom5.events.Event;
-import org.w3c.dom5.events.EventListener;
-import org.w3c.dom5.events.EventTarget;
-import org.w3c.dom5.html.HTMLDocument;
-import org.w3c.dom5.html.HTMLElement;
-import org.w3c.dom5.html.HTMLInputElement;
-import org.w3c.dom5.html.HTMLTableCellElement;
-import org.w3c.dom5.html.HTMLTableElement;
-import org.w3c.dom5.html.HTMLTableRowElement;
-import org.w3c.dom5.html.HTMLTableSectionElement;
+
+import j2js.w3c.dom.Node;
+import j2js.w3c.dom.events.Event;
+import j2js.w3c.dom.events.EventListener;
+import j2js.w3c.dom.events.EventTarget;
+import j2js.w3c.dom.html.HTMLDocument;
+import j2js.w3c.dom.html.HTMLElement;
+import j2js.w3c.dom.html.HTMLInputElement;
+import j2js.w3c.dom.html.HTMLTableCellElement;
+import j2js.w3c.dom.html.HTMLTableElement;
+import j2js.w3c.dom.html.HTMLTableRowElement;
+import j2js.w3c.dom.html.HTMLTableSectionElement;
 
 /**
  * Custom drawn tabel widget for SWT GUIs.

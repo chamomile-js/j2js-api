@@ -10,7 +10,7 @@
  * See W3C License http://www.w3.org/Consortium/Legal/ for more details.
  */
 
-package org.w3c.dom.stylesheets;
+package j2js.w3c.dom.stylesheets;
 
 /**
  * The <code>StyleSheetList</code> interface provides the abstraction of an 
@@ -32,7 +32,7 @@ public interface StyleSheetList {
      *  Used to retrieve a style sheet by ordinal index. If index is greater 
      * than or equal to the number of style sheets in the list, this returns 
      * <code>null</code>. 
-     * @param indexIndex into the collection
+     * @param index Index into the collection
      * @return The style sheet at the <code>index</code> position in the 
      *   <code>StyleSheetList</code>, or <code>null</code> if that is not a 
      *   valid index. 

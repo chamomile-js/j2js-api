@@ -1,7 +1,7 @@
 
-package org.w3c.dom.svg;
+package j2js.w3c.dom.svg;
 
-import org.w3c.dom5.css.CSSRule;
+import j2js.w3c.dom.css.CSSRule;
 
 public interface SVGCSSRule extends 
                CSSRule {

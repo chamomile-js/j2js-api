@@ -10,7 +10,7 @@
  * See W3C License http://www.w3.org/Consortium/Legal/ for more details.
  */
 
-package org.w3c.dom.stylesheets;
+package j2js.w3c.dom.stylesheets;
 
 /**
  *  The <code>LinkStyle</code> interface provides a mechanism by which a style 

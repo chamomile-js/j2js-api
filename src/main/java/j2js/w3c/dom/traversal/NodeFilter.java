@@ -10,9 +10,9 @@
  * See W3C License http://www.w3.org/Consortium/Legal/ for more details.
  */
 
-package org.w3c.dom.traversal;
+package j2js.w3c.dom.traversal;
 
-import org.w3c.dom5.Node;
+import j2js.w3c.dom.Node;
 
 /**
  * Filters are objects that know how to "filter out" nodes. If a 

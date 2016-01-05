@@ -10,10 +10,10 @@
  * See W3C License http://www.w3.org/Consortium/Legal/ for more details.
  */
 
-package org.w3c.dom.traversal;
+package j2js.w3c.dom.traversal;
 
-import org.w3c.dom5.DOMException;
-import org.w3c.dom5.Node;
+import j2js.w3c.dom.DOMException;
+import j2js.w3c.dom.Node;
 
 /**
  * <code>NodeIterators</code> are used to step through a set of nodes, e.g. 

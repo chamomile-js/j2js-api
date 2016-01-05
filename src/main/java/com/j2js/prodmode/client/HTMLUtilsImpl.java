@@ -10,14 +10,14 @@
 package com.j2js.prodmode.client;
 
 import j2js.client.HTMLUtils;
+import j2js.w3c.dom.Node;
+import j2js.w3c.dom.events.Event;
+import j2js.w3c.dom.html.HTMLDocument;
+import j2js.w3c.dom.html.HTMLElement;
+import j2js.w3c.dom.html.HTMLPreElement;
+import j2js.w3c.dom.html.HTMLStyleElement;
 import javascript.JSObject;
 import javascript.ScriptHelper;
-import org.w3c.dom5.Node;
-import org.w3c.dom5.events.Event;
-import org.w3c.dom5.html.HTMLDocument;
-import org.w3c.dom5.html.HTMLElement;
-import org.w3c.dom5.html.HTMLPreElement;
-import org.w3c.dom5.html.HTMLStyleElement;
 
 /**
  * Utility class for accessing and manipulating the DOM.

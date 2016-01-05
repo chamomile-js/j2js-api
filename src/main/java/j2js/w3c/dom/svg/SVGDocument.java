@@ -1,8 +1,8 @@
 
-package org.w3c.dom.svg;
+package j2js.w3c.dom.svg;
 
-import org.w3c.dom5.Document;
-import org.w3c.dom5.events.DocumentEvent;
+import j2js.w3c.dom.Document;
+import j2js.w3c.dom.events.DocumentEvent;
 
 public interface SVGDocument extends 
                Document,

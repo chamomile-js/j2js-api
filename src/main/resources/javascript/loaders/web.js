@@ -48,8 +48,8 @@ j2js.loadScript = function(currentlyLoaded) {
     j2js.progress(currentlyLoaded);
     
     window.setTimeout(function() { 
-            j2js.loadScriptBySource(j2js.assemblyPath + (j2js.scriptIndex++) + ".js");
-        }, j2js.throttleInMillis);
+        j2js.loadScriptBySource(j2js.assemblyPath + (j2js.scriptIndex++) + ".js");
+    }, j2js.throttleInMillis);
 };
 
 j2js.getQueryParameter = function(parameterName) {
@@ -73,7 +73,6 @@ j2js.loadScriptBySource = function(src) {
 	head.appendChild(script);
 	script.src = src;
 };
-
 
 window.onload = function() {
 	var devmodeHost = j2js.getQueryParameter("devmodeHost");

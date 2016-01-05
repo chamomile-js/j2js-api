@@ -1,20 +1,19 @@
 package j2js.client;
 
-import j2js.Global;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.w3c.dom5.Element;
-import org.w3c.dom5.css.CSSStyleDeclaration;
-import org.w3c.dom5.html.HTMLAnchorElement;
-import org.w3c.dom5.html.HTMLDocument;
-import org.w3c.dom5.html.HTMLElement;
-import org.w3c.dom5.html.HTMLImageElement;
-import org.w3c.dom5.html.HTMLPreElement;
-import org.w3c.dom5.html.HTMLTableElement;
+import j2js.Global;
+import j2js.w3c.dom.Element;
+import j2js.w3c.dom.css.CSSStyleDeclaration;
+import j2js.w3c.dom.html.HTMLAnchorElement;
+import j2js.w3c.dom.html.HTMLDocument;
+import j2js.w3c.dom.html.HTMLElement;
+import j2js.w3c.dom.html.HTMLImageElement;
+import j2js.w3c.dom.html.HTMLPreElement;
+import j2js.w3c.dom.html.HTMLTableElement;
 
 /**
  * A simple parser for a Wiki-style text markup. The supported markup is a subset of

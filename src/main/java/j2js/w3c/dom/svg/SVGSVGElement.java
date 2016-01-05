@@ -1,13 +1,13 @@
 
-package org.w3c.dom.svg;
+package j2js.w3c.dom.svg;
 
-
-import org.w3c.dom5.DOMException;
-import org.w3c.dom5.Element;
-import org.w3c.dom5.NodeList;
-import org.w3c.dom5.css.DocumentCSS;
-import org.w3c.dom5.events.DocumentEvent;
-import org.w3c.dom5.events.EventTarget;
+import j2js.w3c.dom.DOMException;
+import j2js.w3c.dom.Element;
+import j2js.w3c.dom.NodeList;
+import j2js.w3c.dom.css.DocumentCSS;
+import j2js.w3c.dom.css.ViewCSS;
+import j2js.w3c.dom.events.DocumentEvent;
+import j2js.w3c.dom.events.EventTarget;
 
 public interface SVGSVGElement extends 
                SVGElement,
@@ -20,6 +20,7 @@ public interface SVGSVGElement extends
                SVGZoomAndPan,
                EventTarget,
                DocumentEvent,
+               ViewCSS,
                DocumentCSS {
   public SVGAnimatedLength getX( );
   public SVGAnimatedLength getY( );

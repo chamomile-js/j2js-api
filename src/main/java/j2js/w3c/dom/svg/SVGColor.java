@@ -1,7 +1,8 @@
 
-package org.w3c.dom.svg;
+package j2js.w3c.dom.svg;
 
-import org.w3c.dom5.css.CSSValue;
+import j2js.w3c.dom.css.CSSValue;
+import j2js.w3c.dom.css.RGBColor;
 
 public interface SVGColor extends 
                CSSValue {
@@ -12,7 +13,7 @@ public interface SVGColor extends
   public static final short SVG_COLORTYPE_CURRENTCOLOR      = 3;
 
   public short getColorType( );
-  //public RGBColor  getRGBColor( );
+  public RGBColor  getRGBColor( );
   public SVGICCColor    getICCColor( );
 
   public void        setRGBColor ( String rgbColor )

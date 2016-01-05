@@ -13,9 +13,7 @@ package com.j2js.prodmode.net;
 import j2js.Global;
 import j2js.net.HttpRequest;
 import j2js.net.ReadyStateChangeListener;
-
-import org.w3c.dom5.Document;
-
+import j2js.w3c.dom.Document;
 import javascript.ScriptHelper;
 
 /**

@@ -100,7 +100,7 @@ Clazz.prototype.init = function() {
     if (!this.clinit) {
         this.clinit = true;
         // Note: this.constr is null for interfaces. Interfaces do not have
-        // constructors, und must not have an initializer.
+        // constructors, and must not have an initializer.
         if (this.constr != null && this.constr.prototype["<clinit>()void"] != null) {
             this.invokeStatic("<clinit>()void");
             this.constr.prototype["<clinit>()void"] = null;
@@ -291,13 +291,12 @@ Clazz.prototype.invoke = function(obj, methodSignature, parameters) {
 
         // This is a top-level invocation.
         try {
-               try {
-                   var engine = j2js.invokeStatic("j2js.client.Engine", "getEngine()j2js.client.Engine", null);
-                   j2js.invoke(engine, "handleEvent(java.lang.Throwable)void", [exception]);
-               } catch(e) {
-                   // Engine class not loaded.
-               }
-
+           try {
+               var engine = j2js.invokeStatic("j2js.client.Engine", "getEngine()j2js.client.Engine", null);
+               j2js.invoke(engine, "handleEvent(java.lang.Throwable)void", [exception]);
+           } catch(e) {
+               // Engine class not loaded.
+           }
         } catch(e) {
             j2js.println("Could not write exception because of: " + e);
             j2js.println("\nOriginal exception: " + j2js.exceptionToString(exception));
@@ -336,6 +335,10 @@ j2js.handleNewLine = function(s) {
     return s;
 }
 
+// -------------------------------------------------------------------------
+// System.out Implementation.
+// -------------------------------------------------------------------------
+
 j2js.console_element = null;
 
 j2js.console_init = function() {
@@ -345,7 +348,6 @@ j2js.console_init = function() {
         consoleContainer = document.createElement("div");
         document.body.appendChild(consoleContainer);
     }
-
     j2js.console_element = document.createElement("pre");
     consoleContainer.appendChild(j2js.console_element);
 }
@@ -376,6 +378,8 @@ j2js.console_clear = function() {
     }
 }
 
+//-------------------------------------------------------------------------
+
 j2js.println = function(message) {
     j2js.print(message + "\n");
 }
@@ -384,6 +388,8 @@ j2js.print = function(message) {
     if (typeof(window) == "undefined") print(message);
     else j2js.console_write(message);
 }
+
+// -------------------------------------------------------------------------
 
 Clazz.prototype.getName = function() {
     return this.name;
@@ -514,7 +520,7 @@ j2js.createDelegate = function(elem, type, listener, useCapture) {
         }
         
         try {
-            j2js.invoke(listener, "handleEvent(org.w3c.dom5.events.Event)void", [evt]);
+            j2js.invoke(listener, "handleEvent(j2js.w3c.dom.events.Event)void", [evt]);
         } catch(e) {
             j2js.println(j2js.invoke(e, "toString()java.lang.String", []));
         }
@@ -537,12 +543,12 @@ j2js.removeDelegate = function(elem, type, listener, useCapture) {
 j2js.createTimerDelegate = function(windowImpl, listener, delayInMillis, type) {
     var f = function() { 
         try {
-            j2js.invoke(listener, "handleEvent(org.w3c.dom5.views.Window)void", [windowImpl]);
+            j2js.invoke(listener, "handleEvent(j2js.w3c.dom.views.Window)void", [windowImpl]);
         } catch(e) {
             j2js.println(j2js.invoke(e, "toString()java.lang.String", []));
         }
     };
-    return windowImpl.nativeWindow["set" + type](f, delayInMillis);
+    return windowImpl["set" + type](f, delayInMillis);
 }
 
 j2js.cmp = function(value1, value2) {
@@ -668,7 +674,7 @@ j2js.onLoad = function(signature) {
     }
 
     try {
-        j2js.invokeStatic('com.j2js.prodmode.ContextImpl', 'premain(java.lang.String,java.lang.String)void', signature.split('#'));
+        j2js.invokeStatic('com.j2js.prodmode.WebContextImpl', 'premain(java.lang.String,java.lang.String)void', signature.split('#'));
     } finally {
         j2js.closeProgressBar();
     }
@@ -691,10 +697,7 @@ j2js.unquote = function (s) {
 };
 
 j2js.onScriptLoad = function(id, text) {
-    j2js.invokeStatic(
-        "j2js.net.HtmlHttpRequest",
-        "handleEvent(java.lang.String,java.lang.Object)void",
-        [id, text]);
+    j2js.invokeStatic("j2js.net.HtmlHttpRequest", "handleEvent(java.lang.String,java.lang.Object)void", [id, text]);
 }
 
 

@@ -11,9 +11,8 @@
  */
 package de.kupzog.ktable;
 
-import org.w3c.dom5.html.HTMLTableCellElement;
-
 import de.kupzog.ktable.renderers.DefaultCellRenderer;
+import j2js.w3c.dom.html.HTMLTableCellElement;
 
 /**
  * @author Friederich Kupzog

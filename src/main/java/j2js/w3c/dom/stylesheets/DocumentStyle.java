@@ -10,7 +10,7 @@
  * See W3C License http://www.w3.org/Consortium/Legal/ for more details.
  */
 
-package org.w3c.dom.stylesheets;
+package j2js.w3c.dom.stylesheets;
 
 /**
  *  The <code>DocumentStyle</code> interface provides a mechanism by which the 
@@ -27,7 +27,7 @@ public interface DocumentStyle {
      * embedded in a document. For HTML documents, this includes external 
      * style sheets, included via the HTML  LINK element, and inline  STYLE 
      * elements. In XML, this includes external style sheets, included via 
-     * style sheet processing instructions (see ). 
+     * style sheet processing instructions (see [XML StyleSheet]). 
      */
     public StyleSheetList getStyleSheets();
 

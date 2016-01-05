@@ -1,7 +1,7 @@
 
-package org.w3c.dom.svg;
+package j2js.w3c.dom.svg;
 
-import org.w3c.dom5.events.UIEvent;
+import j2js.w3c.dom.events.UIEvent;
 
 public interface SVGZoomEvent extends 
                UIEvent {

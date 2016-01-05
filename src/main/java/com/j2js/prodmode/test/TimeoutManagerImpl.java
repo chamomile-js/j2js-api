@@ -4,14 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import org.w3c.dom5.views.Window;
-
 import com.j2js.prodmode.client.UATestRunner;
 import com.j2js.test.Timeout;
 import com.j2js.test.TimeoutManager;
 
 import j2js.Global;
-import j2js.client.TimerListener;
+import j2js.w3c.dom.timers.TimerListener;
+import j2js.w3c.dom.views.Window;
 
 public class TimeoutManagerImpl implements TimeoutManager {
         

@@ -14,13 +14,13 @@ package j2js;
  * @author j2js.com
  */
 public interface Context {
-    
-    void init();
-    
-    //public String getAssemblyVersion();
-    
-    void close();
-    
-    //public void close(long millis);
-
+   
+   void init();
+   
+   // public String getAssemblyVersion();
+   
+   void close();
+   
+   // public void close(long millis);
+   
 }

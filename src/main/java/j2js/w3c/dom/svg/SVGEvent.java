@@ -1,7 +1,7 @@
 
-package org.w3c.dom.svg;
+package j2js.w3c.dom.svg;
 
-import org.w3c.dom5.events.Event;
+import j2js.w3c.dom.events.Event;
 
 public interface SVGEvent extends 
                Event {
