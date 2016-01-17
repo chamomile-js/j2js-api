@@ -31,7 +31,7 @@ import j2js.w3c.dom.css.ElementCSSInlineStyle;
  * inherited from the <code>Node</code> interface where it was moved.
  * <p>See also the <a href='http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407'>Document Object Model (DOM) Level 3 Core Specification</a>.
  */
-public interface Element extends Node, ElementCSSInlineStyle {
+public interface Element extends Node, ElementTraversal, ElementCSSInlineStyle {
     /**
      * The name of the element. If <code>Node.localName</code> is different 
      * from <code>null</code>, this attribute is a qualified name. For 
