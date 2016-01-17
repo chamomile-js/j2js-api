@@ -551,6 +551,22 @@ j2js.createTimerDelegate = function(windowImpl, listener, delayInMillis, type) {
     return windowImpl["set" + type](f, delayInMillis);
 }
 
+/**
+ * TreeWalker.
+ */
+j2js.createTreeWalker = function(documentImpl, root, whatToShow, filter, entityReferenceExpansion) {
+	var _filter = { 
+		acceptNode: function(node) {
+			try {
+				return j2js.invoke(filter, "acceptNode(j2js.w3c.dom.Node)short", [node]);
+			} catch(e) {
+	            j2js.println(j2js.invoke(e, "toString()java.lang.String", []));
+	        }
+		}
+	};
+	return documentImpl.createTreeWalker(root, whatToShow, _filter, entityReferenceExpansion);
+}
+
 j2js.cmp = function(value1, value2) {
     if (value1 > value2) return 1;
     if (value1 < value2) return -1;
