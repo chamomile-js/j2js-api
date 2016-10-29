@@ -67,7 +67,7 @@ public abstract class HtmlHttpRequest implements HttpRequest {
             };
         };
         
-        Global.window.setTimeout(timerListener, 1);
+        Global.window.setTimeout(timerListener, 0);
     }
     
     protected HtmlHttpRequest() {

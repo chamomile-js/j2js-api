@@ -41,117 +41,318 @@ StackTrace.prototype.toString = function() {
     return s;
 }
 
-function Clazz(name) {
-    this.name = name;
-    this.constr = null;
-    this.superClass = null;
-    this.cp = null;
-    this.clinit = false;
-    this.isThrowable = false;
-}
 
-j2js.classesByName = new Array();
-
-/** This array contains, by index, all
- *    (a) methods signatures as strings
- *    (b) classes as Clazz instance.
- */
-j2js.c = new Array();
-
-j2js.defineClass = function(clazz, constructor, superClass) {
-    if (clazz == null) throw "Class not declared";
-    clazz.superClass = superClass;
-    
-    clazz.constr = constructor;
-    if (clazz.superClass == null) {
-        clazz.constr.prototype = new Object();
-    } else {
-        //j2js.println(clazz.name + " " + clazz.superClass);
-        clazz.constr.prototype = new clazz.superClass.constr();
-    }
-    
-    return clazz;
-}
-
-j2js.gc = function(classSignatureIndex) {
-    var clazz = j2js.c[classSignatureIndex];
-	// TODO: Make the compiler find this!
-    if (clazz == null) throw "Could not resolve class with index " + classSignatureIndex;
-    clazz.init();
-    return clazz;
-}
-
-/**
- * Returns the named native class.
- */
-j2js.forName = function(name) {
-    var clazz = j2js.classesByName[name];
-
-    if (clazz == null) {
-        throw new Error("Class not found: " + name);
-    }
-    
-    clazz.init();
-    
-    return clazz;
-}
-
-Clazz.prototype.init = function() {
-    if (!this.clinit) {
-        this.clinit = true;
-        // Note: this.constr is null for interfaces. Interfaces do not have
-        // constructors, and must not have an initializer.
-        if (this.constr != null && this.constr.prototype["<clinit>()void"] != null) {
-            this.invokeStatic("<clinit>()void");
-            this.constr.prototype["<clinit>()void"] = null;
-        }
-    }
-}
-
-j2js.getContentDocument = function(svgObject) {
-    // TODO: Move this to Java
-    var doc = svgObject.contentDocument;
-    if (doc != null) return doc;
-    doc = svgObject.getSVGDocument();
-    if (doc != null) return doc;
-    var message =
-        "Currently SVG support requires either \n" +
-        "Firefox 1.5 or higher with native SVG support or\n" +
-        "Internet Explorer 6.0 or higher with Adobe SVG Viewer 3.0 or higher or" +
-        "Opera 9.0 or higher with native SVG support";
-    
-    throw j2js.createException("java.lang.RuntimeException", message);
-}
+//----------------------------------------------------------------------------
+// Exceptions API
+//----------------------------------------------------------------------------
 
 j2js.signalState = 0;
 
 j2js.createException = function(className, message) {
-    if (j2js.signalState == 1) throw "Recursive exception creation";
-    j2js.signalState = 1;
+	if (j2js.signalState == 1)
+		throw "Recursive exception creation";
+	j2js.signalState = 1;
 
-    var exception;
-    try {
-        exception = j2js.forName(className).newInstance();
-        j2js.invoke(exception, "<init>(java.lang.String)void", [message]);
-    } catch(e) {
-        throw "Could not create exception for " + message;
-    } finally {
-        j2js.signalState = 0;
-    }
-    return exception;
+	var exception;
+	try {
+		exception = j2js.forName(className).newInstance();
+		j2js.invoke(exception, "<init>(java.lang.String)void", [ message ]);
+	} catch (e) {
+		throw "Could not create exception for " + message;
+	} finally {
+		j2js.signalState = 0;
+	}
+	return exception;
 }
 
 /**
- * Returns the specified exception. According VM Spec's athrow instruction,
- * if objectref is null, a NullPointerException is returned instead of objectref.
+ * Returns the specified exception. According VM Spec's athrow instruction, if
+ * objectref is null, a NullPointerException is returned instead of objectref.
  */
 j2js.nullSaveException = function(objectref) {
-    if (objectref == null) {
-    	objectref = j2js.createException("java.lang.NullPointerException", null);
+	if (objectref == null) {
+		objectref = j2js
+				.createException("java.lang.NullPointerException", null);
+	}
+
+	return objectref;
+}
+
+// Check Null reference.
+j2js.cn = function(obj) {
+	if (obj == null) {
+		throw j2js.createException("java.lang.NullPointerException",
+				"Cannot access field on null");
+	}
+	return obj;
+}
+
+j2js.exceptionToString = function(exception) {
+	var message = j2js.inspect(exception);// String(exception);
+	if (exception.stack != null && j2js.nativeStackTrace) {
+		var lines = exception.stack.split("\n");
+		for (var i = 0; i < lines.length; i++) {
+			message += "\n" + lines[i];
+		}
+	}
+	return message;
+}
+
+// ----------------------------------------------------------------------------
+// java.lang.Class implementation
+// ----------------------------------------------------------------------------
+
+function Clazz(name) {
+	if (name === "Z")
+		this.name = "boolean";
+	else if (name === "C")
+		this.name = "char";
+	else if (name === "B")
+		this.name = "byte";
+	else if (name === "S")
+		this.name = "short";
+	else if (name === "I")
+		this.name = "int";
+	else if (name === "J")
+		this.name = "long";
+	else if (name === "F")
+		this.name = "float";
+	else if (name === "D")
+		this.name = "double";
+	else
+		this.name = name;
+
+	this.constr = null;
+	this.superClass = null;
+	this.cp = null;
+	this.clinit = false;
+	this.isThrowable = false;
+}
+
+Clazz.prototype.init = function() {
+	if (!this.clinit) {
+		this.clinit = true;
+		// Note: this.constr is null for interfaces. Interfaces do not have
+		// constructors, and must not have an initializer.
+		if (this.constr != null
+				&& this.constr.prototype["<clinit>()void"] != null) {
+			this.invokeStatic("<clinit>()void");
+			this.constr.prototype["<clinit>()void"] = null;
+		}
+	}
+}
+
+/**
+ * This map contains all 
+ * classes as Clazz instance mapped by name.
+ */
+j2js.classesByName = new Array();
+
+/**
+ * This array contains, by index, all 
+ * 	(a) methods signatures as strings 
+ *	(b) classes as Clazz instance.
+ */
+j2js.c = new Array();
+
+// Declare class and cache it by signature and index.
+j2js.dcC = function(signature, index) {
+	var clazz = new Clazz(signature);
+	j2js.classesByName[signature] = clazz;
+	j2js.c[index] = clazz;
+	return clazz;
+}
+
+// Delegates to j2js.defineClass
+j2js.dfC = function(signatureIndex, constructor, superSignatureIndex) {
+	var superClass = (superSignatureIndex == null) ? null
+			: j2js.c[superSignatureIndex];
+	return j2js.defineClass(j2js.c[signatureIndex], constructor, superClass);
+}
+
+/**
+ * TODO documentation
+ */
+j2js.defineClass = function(clazz, constructor, superClass) {
+	if (clazz == null)
+		throw "Class not declared";
+	clazz.superClass = superClass;
+	clazz.constr = constructor;
+	if (clazz.superClass == null) {
+		clazz.constr.prototype = new Object();
+	} else {
+		clazz.constr.prototype = new clazz.superClass.constr();
+	}
+	return clazz;
+}
+
+/**
+ * Returns the named native class. Used by
+ * {@link java.lang.Class#forName(String className).
+ */
+j2js.forName = function(name) {
+	var clazz = j2js.classesByName[name];
+	if (clazz == null) {
+		// throw new Error("Class not found: " + name);
+		throw j2js.createException("java.lang.ClassNotFoundException",
+				"Class not found: " + name);
+	}
+	clazz.init(); // TODO throw ExceptionInInitializerError
+	return clazz;
+}
+
+// Returns the native class by signature index.
+j2js.gc = function(classSignatureIndex) {
+	var clazz = j2js.c[classSignatureIndex];
+	if (clazz == null) {
+		// XXX should never happen
+		throw "Could not resolve class with index " + classSignatureIndex;
+	}
+	clazz.init();
+	return clazz;
+}
+
+// Corresponds to Clazz.prototype.defineMethod
+Clazz.prototype.dM = function(signature, signatureIndex, method) {
+	j2js.c[signatureIndex] = signature;
+	this.constr.prototype[signature] = method;
+}
+
+// Corresponds to Clazz.prototype.defineStaticMethod
+Clazz.prototype.dSM = Clazz.prototype.dM;
+
+Clazz.prototype.invoke = function(obj, methodSignature, parameters) {
+	var qName = this.name + "#" + methodSignature;
+	if (j2js.tracing && qName.substring(0, 5) != "java.") {
+		// j2js.tracing = false;
+		var s = "";
+		for (var i = 0; i < stackTrace.entries.length; i++)
+			s += "  ";
+		j2js.println(s + qName);
+		// j2js.tracing = true;
+	}
+
+	if (obj != this && this.name == "java.lang.reflect.Proxy"
+			&& methodSignature.substring(0, 1) != "<") {
+		var classSignature = "java.lang.reflect.Proxy";
+		var ms = "invoke(java.lang.reflect.Proxy,java.lang.String,java.lang.Object[]java.lang.Object)";
+		return j2js.invokeStatic(classSignature, ms, [ obj, methodSignature,
+				arguments ]);
+	}
+
+	var method = this.constr.prototype[methodSignature];
+	if (method == null) {
+		var msg = "No such method: " + qName;
+		// If this is a top level invokation, then at least log here.
+		// TODO: Clean this up.
+		if (stackTrace.entries.length == 0)
+			j2js.println(msg);
+		throw j2js.createException("java.lang.RuntimeException", msg);
+	}
+	if (parameters == null)
+		parameters = [];
+
+	stackTrace.push(qName);
+
+	var result;
+	try {
+		result = method.apply(obj, parameters);
+	} catch (exception) {
+
+		if (exception.clazz == null || !exception.clazz.isThrowable) {
+			// Handle non-Java exception. This should not happen.
+			exception = j2js.createException("java.lang.RuntimeException", j2js
+					.exceptionToString(exception));
+		}
+
+		if (stackTrace.entries.length > 1) {
+			// This is not a top-level invocation.
+			throw exception;
+		}
+
+		// This is a top-level invocation.
+		try {
+			try {
+				var engine = j2js.invokeStatic("j2js.client.Engine",
+						"getEngine()j2js.client.Engine", null);
+				j2js.invoke(engine, "handleEvent(java.lang.Throwable)void",
+						[ exception ]);
+			} catch (e) {
+				// Engine class not loaded.
+			}
+		} catch (e) {
+			j2js.println("Could not write exception because of: " + e);
+			j2js.println("\nOriginal exception: "
+					+ j2js.exceptionToString(exception));
+			throw exception;
+		}
+	} finally {
+		stackTrace.pop();
+	}
+
+	if (result != null && result.clazz != null
+			&& result.clazz.name == "java.lang.String") {
+		result = String(result);
+	}
+
+	return result;
+}
+
+Clazz.prototype.invokeStatic = function(methodSignature, parameters) {
+	return this.invoke(this, methodSignature, parameters);
+}
+
+Clazz.prototype.getName = function() {
+    return this.name;
+}
+
+/**
+ * Returns a non-initialized new instance.
+ */
+Clazz.prototype.newInstance = function() {
+    if (this.name == "java.lang.String") {
+        return "";
     }
     
-    return objectref;
+    var obj = new this.constr();
+    obj.clazz = this;
+    
+    if (this.isThrowable) {
+        stackTrace.fillInCurrentLineNumber();
+        j2js.invoke(obj, "fillInStackTrace()java.lang.Throwable");
+    }
+    
+    return obj;
 }
+
+/**
+ * Determines if the class or interface represented by this Class object is
+ * either the same as, or is a superclass or superinterface of, the class or
+ * interface represented by the specified Class parameter.
+ */
+Clazz.prototype.isAssignableFrom = function(otherClass) {
+
+	// Look at itself.
+	if (this == otherClass)
+		return true;
+
+	// Look at its superclass (recursively).
+	if (otherClass.superClass != null
+			&& this.isAssignableFrom(otherClass.superClass))
+		return true;
+
+	// Look at all superinterfaces (recursively).
+	for ( var i in otherClass.interfaces) {
+		// TODO: Assemble interfaces also for this to work!
+		if (this.isAssignableFrom(j2js.gc(otherClass.interfaces[i])))
+			return true;
+	}
+
+	// Found none.
+	return false;
+}
+
+// ----------------------------------------------------------------------------
 
 j2js.invoke = function(obj, signature, parameters) {
     if (obj == null) {
@@ -170,16 +371,8 @@ j2js.invoke = function(obj, signature, parameters) {
 }
 
 j2js.invokeStatic = function(classSignature, methodSignature, parameters) {
-    var clazz = j2js.forName(classSignature);
+    var clazz = j2js.forName(classSignature); // TODO check null
     return clazz.invokeStatic(methodSignature, parameters);
-}
-
-// Check Null reference.
-j2js.cn = function(obj) {
-    if (obj == null) {
-        throw j2js.createException("java.lang.NullPointerException", "Cannot access field on null");
-    }
-    return obj;
 }
 
 // Delegates to j2js.invoke.
@@ -205,25 +398,7 @@ j2js.iSt = function(classSignatureIndex, methodSignatureIndex, parameters) {
     return clazz.invokeStatic(j2js.c[methodSignatureIndex], parameters);
 }
 
-// Declare class and cache it by signature and index.
-j2js.dcC = function(signature, index) {
-    var clazz = new Clazz(signature);
-    j2js.classesByName[signature] = clazz;
-    j2js.c[index] = clazz;
-    return clazz;
-}
-
-// Delegates to j2js.defineClass
-j2js.dfC = function(signatureIndex, constructor, superSignatureIndex) {
-	var superClass;
-	if (superSignatureIndex == null) {
-		superClass = null;
-	} else {
-		superClass = j2js.c[superSignatureIndex];
-	}
-	
-    return j2js.defineClass(j2js.c[signatureIndex], constructor, superClass);
-}
+// ----------------------------------------------------------------------------
 
 // Corresponds to j2js.newInstance
 j2js.nI = function(classSignatureIndex) {
@@ -233,99 +408,6 @@ j2js.nI = function(classSignatureIndex) {
 // Corresponds to j2js.staticFieldRef
 j2js.sFR = function(classSignatureIndex) {
     return j2js.gc(classSignatureIndex).constr.prototype;
-}
-
-
-// Corresponds to Clazz.prototype.defineMethod
-Clazz.prototype.dM = function(signature, signatureIndex, method) {
-    j2js.c[signatureIndex] = signature;
-    this.constr.prototype[signature] = method;
-}
-
-// Corresponds to Clazz.prototype.defineStaticMethod
-Clazz.prototype.dSM = Clazz.prototype.dM;
-
-Clazz.prototype.invoke = function(obj, methodSignature, parameters) {
-    var qName = this.name + "#" + methodSignature;
-    if (j2js.tracing && qName.substring(0,5) != "java.") {
-        //j2js.tracing = false;
-        var s = "";
-        for (var i=0; i<stackTrace.entries.length; i++) s += "  ";
-        j2js.println(s + qName);
-        //j2js.tracing = true;
-    }
-    
-    if (obj != this && this.name == "java.lang.reflect.Proxy" && methodSignature.substring(0, 1)!="<") {
-        var classSignature = "java.lang.reflect.Proxy";
-        var ms = "invoke(java.lang.reflect.Proxy,java.lang.String,java.lang.Object[]java.lang.Object)";
-        return j2js.invokeStatic(classSignature, ms, [obj, methodSignature, arguments]);
-    }
-    
-    var method = this.constr.prototype[methodSignature];
-    if (method == null) {
-        var msg = "No such method: " + qName;
-        // If this is a top level invokation, then at least log here.
-        // TODO: Clean this up.
-        if (stackTrace.entries.length == 0) j2js.println(msg);
-        throw j2js.createException("java.lang.RuntimeException", msg);
-    }
-    if (parameters == null) parameters = [];
-
-    stackTrace.push(qName);
-
-    var result;
-    try {
-        result = method.apply(obj, parameters);
-    } catch (exception) {
-        
-        if (exception.clazz == null || !exception.clazz.isThrowable) {
-            // Handle non-Java exception. This should not happen.
-            exception = j2js.createException("java.lang.RuntimeException", j2js.exceptionToString(exception));
-        }
-        
-            
-        if (stackTrace.entries.length > 1) {
-            // This is not a top-level invocation.
-            throw exception;
-        }
-
-        // This is a top-level invocation.
-        try {
-           try {
-               var engine = j2js.invokeStatic("j2js.client.Engine", "getEngine()j2js.client.Engine", null);
-               j2js.invoke(engine, "handleEvent(java.lang.Throwable)void", [exception]);
-           } catch(e) {
-               // Engine class not loaded.
-           }
-        } catch(e) {
-            j2js.println("Could not write exception because of: " + e);
-            j2js.println("\nOriginal exception: " + j2js.exceptionToString(exception));
-            throw exception;
-        }
-    } finally {
-        stackTrace.pop();
-    }
-    
-    if (result != null && result.clazz != null && result.clazz.name == "java.lang.String") {
-        result = String(result);
-    }
-    
-    return result;
-}
-
-Clazz.prototype.invokeStatic = function(methodSignature, parameters) {
-    return this.invoke(this, methodSignature, parameters);
-}
-
-j2js.exceptionToString = function(exception) {
-    var message = j2js.inspect(exception);//String(exception);
-    if (exception.stack != null && j2js.nativeStackTrace) { 
-        var lines = exception.stack.split("\n");
-        for (var i=0; i<lines.length; i++) {
-            message += "\n" + lines[i];
-        }
-    }
-    return message;
 }
 
 j2js.handleNewLine = function(s) {
@@ -391,29 +473,6 @@ j2js.print = function(message) {
 
 // -------------------------------------------------------------------------
 
-Clazz.prototype.getName = function() {
-    return this.name;
-}
-
-/**
- * Returns a non-initialized new instance.
- */
-Clazz.prototype.newInstance = function() {
-    if (this.name == "java.lang.String") {
-        return "";
-    }
-    
-    var obj = new this.constr();
-    obj.clazz = this;
-    
-    if (this.isThrowable) {
-        stackTrace.fillInCurrentLineNumber();
-        j2js.invoke(obj, "fillInStackTrace()java.lang.Throwable");
-    }
-    
-    return obj;
-}
-
 /**
  * Checks if the specified object can be cast to the specified class.
  */
@@ -438,29 +497,6 @@ j2js.isInstanceof = function(obj, className) {
     }
     var clazz = j2js.forName(className);
     return clazz.isAssignableFrom(obj.clazz);
-}
-
-/**
- * Determines if the class or interface represented by this Class object is either the same as,
- * or is a superclass or superinterface of, the class or interface represented by the specified
- * Class parameter. 
- */
-Clazz.prototype.isAssignableFrom = function(otherClass) {
-
-    // Look at itself.
-    if (this == otherClass) return true;
-    
-    // Look at its superclass (recursively).
-    if (otherClass.superClass != null && this.isAssignableFrom(otherClass.superClass)) return true;
-    
-    // Look at all superinterfaces (recursively).
-    for (var i in otherClass.interfaces) {
-        // TODO: Assemble interfaces also for this to work!
-        if (this.isAssignableFrom(j2js.gc(otherClass.interfaces[i]))) return true;
-    }
-    
-    // Found none.
-    return false;
 }
 
 j2js.modalNode = null;
@@ -552,42 +588,51 @@ j2js.createTimerDelegate = function(windowImpl, listener, delayInMillis, type) {
 }
 
 /**
- * TreeWalker.
+ * TreeWalker (DOM).
  */
 j2js.createTreeWalker = function(documentImpl, root, whatToShow, filter, entityReferenceExpansion) {
-	var _filter = { 
-		acceptNode: function(node) {
+	var _filter = {
+		acceptNode : function(node) {
 			try {
-				return j2js.invoke(filter, "acceptNode(j2js.w3c.dom.Node)short", [node]);
-			} catch(e) {
-	            j2js.println(j2js.invoke(e, "toString()java.lang.String", []));
-	        }
+				return j2js.invoke(filter, "acceptNode(j2js.w3c.dom.Node)short", [ node ]);
+			} catch (e) {
+				j2js.println(j2js.invoke(e, "toString()java.lang.String", []));
+			}
 		}
 	};
 	return documentImpl.createTreeWalker(root, whatToShow, _filter, entityReferenceExpansion);
 }
 
 j2js.cmp = function(value1, value2) {
-    if (value1 > value2) return 1;
-    if (value1 < value2) return -1;
-    return 0;
+	if (value1 > value2)
+		return 1;
+	if (value1 < value2)
+		return -1;
+	return 0;
 }
 
-// Truncate a number. Needed for integral types in casting and division.
+/**
+ * Truncate a number. Needed for integral types in casting and division.
+ */
 j2js.trunc = function(f) {
-    if (f < 0) return Math.ceil(f);
-    return Math.floor(f);
+	if (f < 0)
+		return Math.ceil(f);
+	return Math.floor(f);
 }
 
-/**  Narrows the number n to the specified type. The type
- *  must be 0xff (byte) or 0xffff (short).
- *  See 5.1.3 "Narrowing Primitive Conversions" of the Java Language Specification.
+/**
+ * Narrows the number n to the specified type. The type must be 0xff (byte) or
+ * 0xffff (short).
+ * 
+ * See 5.1.3 "Narrowing Primitive Conversions" of the Java Language
+ * Specification.
  */
 j2js.narrow = function(n, bits) {
-   n = j2js.trunc(n);
-   n = n & bits;
-   if (n > (bits>>>1)) n -= (bits+1);
-   return n;
+	n = j2js.trunc(n);
+	n = n & bits;
+	if (n > (bits >>> 1))
+		n -= (bits + 1);
+	return n;
 }
 
 /**
@@ -602,98 +647,103 @@ j2js.narrow = function(n, bits) {
  * This way, we can employ the method recursively.
  */
 j2js.newArray = function(classSignature, dim, index) {
-	if (index == null) index = 0;
+	if (index == null)
+		index = 0;
 	var subSignature = classSignature.substr(index);
 	var dimensionAtIndex = dim[index];
-	
-    var array = new Array(dimensionAtIndex);
-    array.clazz = j2js.forName(subSignature);
-    
-    if (subSignature == "Z") {
-        for (var i=0; i<dimensionAtIndex; i++) {
-            array[i] = false;
-        }
-    } else if (subSignature.charAt(1) != "[" && subSignature.charAt(1) != "L") {
-        for (var i=0; i<dimensionAtIndex; i++) {
-            array[i] = 0;
-        }
-    } else {
-        // Component type is a reference (array or object type).
- 		if (index+1 < dim.length) {
- 			for (var i=0; i<dimensionAtIndex; i++) {
-            	array[i] = j2js.newArray(classSignature, dim, index+1);
-        	}
- 		}
- 	}
-    return array;
+
+	var array = new Array(dimensionAtIndex);
+	array.clazz = j2js.forName(subSignature);
+
+	if (subSignature == "Z") {
+		for (var i = 0; i < dimensionAtIndex; i++) {
+			array[i] = false;
+		}
+	} else if (subSignature.charAt(1) != "[" && subSignature.charAt(1) != "L") {
+		for (var i = 0; i < dimensionAtIndex; i++) {
+			array[i] = 0;
+		}
+	} else {
+		// Component type is a reference (array or object type).
+		if (index + 1 < dim.length) {
+			for (var i = 0; i < dimensionAtIndex; i++) {
+				array[i] = j2js.newArray(classSignature, dim, index + 1);
+			}
+		}
+	}
+	return array;
 }
 
 /**
- * Returns a shallow clone of the specified array.
- * This method is used in java.lang.Object#clone()java.lang.Object
+ * Returns a shallow clone of the specified array. This method is used in
+ * java.lang.Object#clone()java.lang.Object
  */
 j2js.cloneArray = function(other) {
-    var dim = other.length;
-    var array = new Array(dim);
-    array.clazz = other.clazz;
-    for (var i=0; i<dim; i++) {
-        array[i] = other[i];
-    }
-    return array;
+	var dim = other.length;
+	var array = new Array(dim);
+	array.clazz = other.clazz;
+	for (var i = 0; i < dim; i++) {
+		array[i] = other[i];
+	}
+	return array;
 }
 
 // Returns all attributes of the specified object as a string.
 j2js.inspect = function(object) {
-    var s = "Value " + String(object);
-      
-    if (object == null || object == undefined) return "null";
-      
-    if (typeof(object)=="string") return object;
+	var s = "Value " + String(object);
 
-    var attributes = new Array();
-    for (var e in object) {
-        attributes[attributes.length] = e;
-    }
+	if (object == null || object == undefined)
+		return "null";
 
-    if (attributes.length > 0) {
-          attributes.sort();
-          s += "\n\tAttributes:\n"; 
-          for (var e in attributes) {
-              var attribute = attributes[e];
-              var value = "";
-              try {
-                  value = object[attribute];
-              } catch (e) {
-                  value += "While fetching attribute: " + e.message;
-              }
-              var type = typeof(value);
-              if (type == "function") {
-                  s += "\t" + attribute + "[" + type + "]\n";
-              } else {
-                  s += "\t" + attribute + "[" + type + "]: " + value + "\n";
-              }
-          }
-    }
-    
-    return s;
+	if (typeof (object) == "string")
+		return object;
+
+	var attributes = new Array();
+	for ( var e in object) {
+		attributes[attributes.length] = e;
+	}
+
+	if (attributes.length > 0) {
+		attributes.sort();
+		s += "\n\tAttributes:\n";
+		for ( var e in attributes) {
+			var attribute = attributes[e];
+			var value = "";
+			try {
+				value = object[attribute];
+			} catch (e) {
+				value += "While fetching attribute: " + e.message;
+			}
+			var type = typeof (value);
+			if (type == "function") {
+				s += "\t" + attribute + "[" + type + "]\n";
+			} else {
+				s += "\t" + attribute + "[" + type + "]: " + value + "\n";
+			}
+		}
+	}
+
+	return s;
 }
 
 j2js.onLoad = function(signature) {
-    var throwableClass = j2js.forName("java.lang.Throwable");
+	// Tag all classes that extend java.lang.Throwable
+	var throwableClass = j2js.forName("java.lang.Throwable");
+	for ( var name in j2js.classesByName) {
+		var clazz = j2js.classesByName[name];
 
-    for (var name in j2js.classesByName) {
-        var clazz = j2js.classesByName[name];
-        
-        if (throwableClass.isAssignableFrom(clazz)) {
-            clazz.isThrowable = true;
-        }
-    }
+		if (throwableClass.isAssignableFrom(clazz)) {
+			clazz.isThrowable = true;
+		}
+	}
 
-    try {
-        j2js.invokeStatic('com.j2js.prodmode.WebContextImpl', 'premain(java.lang.String,java.lang.String)void', signature.split('#'));
-    } finally {
-        j2js.closeProgressBar();
-    }
+	try {
+		j2js.invokeStatic('com.j2js.prodmode.WebContextImpl',
+				'premain(java.lang.String,java.lang.String)void', signature
+						.split('#'));
+	} finally {
+		j2js.closeProgressBar();
+	}
 };
 
 j2js.unquote = function (s) {
@@ -713,7 +763,43 @@ j2js.unquote = function (s) {
 };
 
 j2js.onScriptLoad = function(id, text) {
-    j2js.invokeStatic("j2js.net.HtmlHttpRequest", "handleEvent(java.lang.String,java.lang.Object)void", [id, text]);
+	j2js.invokeStatic("j2js.net.HtmlHttpRequest",
+			"handleEvent(java.lang.String,java.lang.Object)void", [ id, text ]);
 }
 
+//----------------------------------------------------------------------------
 
+j2js.getContentDocument = function(svgObject) {
+ // TODO: Move this to Java
+ var doc = svgObject.contentDocument;
+ if (doc != null) return doc;
+ doc = svgObject.getSVGDocument();
+ if (doc != null) return doc;
+ var message =
+     "Currently SVG support requires either \n" +
+     "Firefox 1.5 or higher with native SVG support or\n" +
+     "Internet Explorer 6.0 or higher with Adobe SVG Viewer 3.0 or higher or" +
+     "Opera 9.0 or higher with native SVG support";
+ 
+ throw j2js.createException("java.lang.RuntimeException", message);
+}
+
+// ----------------------------------------------------------------------------
+
+j2js.dcC("Z", 0); // boolean
+j2js.dcC("C", 1); // char
+j2js.dcC("B", 2); // byte
+j2js.dcC("S", 3); // short
+j2js.dcC("I", 4); // int
+j2js.dcC("J", 5); // long
+j2js.dcC("F", 6); // float
+j2js.dcC("D", 7); // double
+
+j2js.dcC("[Z", 10); // boolean array
+j2js.dcC("[C", 11); // char array
+j2js.dcC("[B", 12); // byte array
+j2js.dcC("[S", 13); // short array
+j2js.dcC("[I", 14); // int array
+j2js.dcC("[J", 15); // long array
+j2js.dcC("[F", 16); // float array
+j2js.dcC("[D", 17); // double array

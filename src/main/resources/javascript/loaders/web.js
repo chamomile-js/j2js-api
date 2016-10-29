@@ -1,7 +1,10 @@
 /**
- * JavaScript Core Runtime Library.
+ * Chamomile J2JS Translator - JavaScript Core Runtime Library.
+ * 
  * Copyright (c) 2005-2007 j2js.com
+ * Copyright (c) 2016 chamomile.js
  */
+var j2js = {};
 
 j2js.dictionary = {};
 j2js.throttleInMillis = 10;
