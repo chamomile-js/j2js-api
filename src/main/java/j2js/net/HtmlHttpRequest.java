@@ -13,11 +13,12 @@ package j2js.net;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.w3c.dom.window.Window;
+import org.w3c.dom.window.timers.TimerListener;
+
 import com.j2js.prodmode.net.XMLHttpRequest;
 
 import j2js.Global;
-import j2js.w3c.dom.timers.TimerListener;
-import j2js.w3c.dom.views.Window;
 
 /**
  * Subclasses of {@link HtmlHttpRequest} are independed of the avaliablility of the {@link j2js.net.XMLHttpRequest}

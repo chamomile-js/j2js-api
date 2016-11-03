@@ -41,7 +41,6 @@ StackTrace.prototype.toString = function() {
     return s;
 }
 
-
 //----------------------------------------------------------------------------
 // Exceptions API
 //----------------------------------------------------------------------------
@@ -428,6 +427,7 @@ j2js.console_init = function() {
     var consoleContainer = document.getElementById(id);
     if (consoleContainer == null) {
         consoleContainer = document.createElement("div");
+        consoleContainer.setAttribute("id", "console");
         document.body.appendChild(consoleContainer);
     }
     j2js.console_element = document.createElement("pre");

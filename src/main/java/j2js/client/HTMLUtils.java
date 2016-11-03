@@ -14,18 +14,17 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.swt.graphics.Point;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.MouseEvent;
+import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLPreElement;
 
 import j2js.Global;
-import j2js.w3c.dom.Element;
-import j2js.w3c.dom.Node;
-import j2js.w3c.dom.NodeList;
-import j2js.w3c.dom.css.CSSStyleDeclaration;
-import j2js.w3c.dom.events.Event;
-import j2js.w3c.dom.events.MouseEvent;
-import j2js.w3c.dom.html.HTMLDocument;
-import j2js.w3c.dom.html.HTMLElement;
-import j2js.w3c.dom.html.HTMLPreElement;
 
 /**
  * Utility class for accessing and manipulating the DOM.
@@ -127,44 +126,44 @@ public abstract class HTMLUtils {
     
     public abstract void insertCSS(HTMLDocument document, String css);
     
-    public Point getCursorPosition(MouseEvent event) {
-        Point pos = new Point(event.getClientX(), event.getClientY());
-        return pos;
-    }
+//    public Point getCursorPosition(MouseEvent event) {
+//        Point pos = new Point(event.getClientX(), event.getClientY());
+//        return pos;
+//    }
     
     public double getNumericValue(String s) {
         return Double.parseDouble(s.replaceAll("px", ""));
     }
     
-    public Point getLocation(CSSStyleDeclaration style) {
-        return new Point(
-                (int) getNumericValue(style.getLeft()), 
-                (int) getNumericValue(style.getTop()));
-    }
-    
-    public Point getLocation(HTMLElement element) {
-        return getLocation(element.getStyle());
-    }
-    
-    public Point getDimension(CSSStyleDeclaration style) {
-        return new Point(
-                (int) getNumericValue(style.getWidth()), 
-                (int) getNumericValue(style.getHeight()));
-    }
+//    public Point getLocation(CSSStyleDeclaration style) {
+//        return new Point(
+//                (int) getNumericValue(style.getLeft()), 
+//                (int) getNumericValue(style.getTop()));
+//    }
+//    
+//    public Point getLocation(HTMLElement element) {
+//        return getLocation(element.getStyle());
+//    }
+//    
+//    public Point getDimension(CSSStyleDeclaration style) {
+//        return new Point(
+//                (int) getNumericValue(style.getWidth()), 
+//                (int) getNumericValue(style.getHeight()));
+//    }
     
     public abstract int getOffsetWidth(HTMLElement element);
     
     public abstract int getOffsetHeight(HTMLElement element);
     
-    public void setLocation(CSSStyleDeclaration style, Point position) {
-        style.setLeft(position.x + "px");
-        style.setTop(position.y + "px");
-    }
-    
-    public void setDimension(CSSStyleDeclaration style, Point position) {
-        style.setWidth(position.x + "px");
-        style.setHeight(position.y + "px");
-    }
+//    public void setLocation(CSSStyleDeclaration style, Point position) {
+//        style.setLeft(position.x + "px");
+//        style.setTop(position.y + "px");
+//    }
+//    
+//    public void setDimension(CSSStyleDeclaration style, Point position) {
+//        style.setWidth(position.x + "px");
+//        style.setHeight(position.y + "px");
+//    }
     
     public void removeChildren(Element element) {
         do {

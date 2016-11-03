@@ -12,14 +12,15 @@
 
 package j2js;
 
+import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.window.Window;
+
 import com.j2js.test.TimeoutManager;
 
 import j2js.client.Console;
 import j2js.client.HTMLUtils;
 import j2js.net.AbstractHttpRequestFactory;
 import j2js.net.JSON.AbstractJSON;
-import j2js.w3c.dom.html.HTMLDocument;
-import j2js.w3c.dom.views.Window;
 
 public final class Global {
    public static Window window;

@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.w3c.dom.window.Window;
+import org.w3c.dom.window.timers.TimerListener;
+
 import com.j2js.prodmode.net.XMLHttpRequest;
 import com.j2js.prodmode.net.JSON.JSONImpl;
 import com.j2js.prodmode.test.TimeoutManagerImpl;
 
 import j2js.Global;
-import j2js.w3c.dom.timers.TimerListener;
-import j2js.w3c.dom.views.Window;
 
 public class UATestRunner {
     

@@ -1,7 +1,7 @@
 package j2js.client;
 
-import j2js.w3c.dom.events.Event;
-import j2js.w3c.dom.events.EventListener;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 
 public class EventExecution implements Runnable {
 

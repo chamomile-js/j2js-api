@@ -10,16 +10,17 @@
 
 package j2js.net;
 
+import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLFormElement;
+import org.w3c.dom.html.HTMLIFrameElement;
+import org.w3c.dom.html.HTMLInputElement;
+
 import com.j2js.prodmode.net.XMLHttpRequest;
 
 import j2js.Global;
-import j2js.w3c.dom.css.CSSStyleDeclaration;
-import j2js.w3c.dom.html.HTMLCollection;
-import j2js.w3c.dom.html.HTMLDocument;
-import j2js.w3c.dom.html.HTMLElement;
-import j2js.w3c.dom.html.HTMLFormElement;
-import j2js.w3c.dom.html.HTMLIFrameElement;
-import j2js.w3c.dom.html.HTMLInputElement;
 
 /**
  * The FormHttpRequest sends HTTP POST requests by submitting a client side form.

@@ -15,8 +15,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.w3c.dom.html.HTMLFormElement;
+
 import j2js.Global;
-import j2js.w3c.dom.html.HTMLFormElement;
 
 /**
  * A {@link RemoteProcedureCall} is able to invoke a remote procedure asynchronically.

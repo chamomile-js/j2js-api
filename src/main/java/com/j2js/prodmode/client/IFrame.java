@@ -4,11 +4,11 @@ package com.j2js.prodmode.client;
 import java.util.HashMap;
 import java.util.Map;
 
-import j2js.w3c.dom.Document;
-import j2js.w3c.dom.events.EventListener;
-import j2js.w3c.dom.events.EventTarget;
-import j2js.w3c.dom.html.HTMLIFrameElement;
-import j2js.w3c.dom.views.Window;
+import org.w3c.dom.Document;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.html.HTMLIFrameElement;
+import org.w3c.dom.window.Window;
 
 public class IFrame {
     

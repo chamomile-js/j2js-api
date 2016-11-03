@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import org.w3c.dom.window.Window;
+
 import com.j2js.prodmode.client.ConsoleImpl;
 import com.j2js.prodmode.client.ConsoleOutputStream;
 import com.j2js.prodmode.client.HTMLUtilsImpl;
@@ -28,7 +30,6 @@ import com.j2js.prodmode.test.TimeoutManagerImpl;
 
 import j2js.Context;
 import j2js.Global;
-import j2js.w3c.dom.views.Window;
 import javascript.ScriptHelper;
 
 public final class WebContextImpl implements Context {

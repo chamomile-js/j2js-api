@@ -9,13 +9,14 @@
  */
 package com.j2js.prodmode.client;
 
+import org.w3c.dom.Node;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLPreElement;
+import org.w3c.dom.html.HTMLStyleElement;
+
 import j2js.client.HTMLUtils;
-import j2js.w3c.dom.Node;
-import j2js.w3c.dom.events.Event;
-import j2js.w3c.dom.html.HTMLDocument;
-import j2js.w3c.dom.html.HTMLElement;
-import j2js.w3c.dom.html.HTMLPreElement;
-import j2js.w3c.dom.html.HTMLStyleElement;
 import javascript.JSObject;
 import javascript.ScriptHelper;
 

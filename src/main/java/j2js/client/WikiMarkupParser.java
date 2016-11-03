@@ -5,15 +5,16 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.html.HTMLAnchorElement;
+import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLImageElement;
+import org.w3c.dom.html.HTMLPreElement;
+import org.w3c.dom.html.HTMLTableElement;
+
 import j2js.Global;
-import j2js.w3c.dom.Element;
-import j2js.w3c.dom.css.CSSStyleDeclaration;
-import j2js.w3c.dom.html.HTMLAnchorElement;
-import j2js.w3c.dom.html.HTMLDocument;
-import j2js.w3c.dom.html.HTMLElement;
-import j2js.w3c.dom.html.HTMLImageElement;
-import j2js.w3c.dom.html.HTMLPreElement;
-import j2js.w3c.dom.html.HTMLTableElement;
 
 /**
  * A simple parser for a Wiki-style text markup. The supported markup is a subset of

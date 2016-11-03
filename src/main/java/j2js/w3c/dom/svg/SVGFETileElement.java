@@ -1,8 +1,0 @@
-
-package j2js.w3c.dom.svg;
-
-public interface SVGFETileElement extends 
-               SVGElement,
-               SVGFilterPrimitiveStandardAttributes {
-  public SVGAnimatedString getIn1( );
-}

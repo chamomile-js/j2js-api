@@ -12,7 +12,7 @@ package j2js.client;
 
 import java.util.Date;
 
-import j2js.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.html.HTMLDocument;
 
 /**
  * Instances of this class represent cookies managed by web browsers.

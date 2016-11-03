@@ -10,10 +10,11 @@
 
 package com.j2js.prodmode.net;
 
+import org.w3c.dom.Document;
+
 import j2js.Global;
 import j2js.net.HttpRequest;
 import j2js.net.ReadyStateChangeListener;
-import j2js.w3c.dom.Document;
 import javascript.ScriptHelper;
 
 /**

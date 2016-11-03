@@ -1,11 +1,12 @@
 package j2js.client;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.html.HTMLButtonElement;
+import org.w3c.dom.html.HTMLElement;
+
 import j2js.Global;
-import j2js.w3c.dom.Document;
-import j2js.w3c.dom.events.EventListener;
-import j2js.w3c.dom.events.EventTarget;
-import j2js.w3c.dom.html.HTMLButtonElement;
-import j2js.w3c.dom.html.HTMLElement;
 
 /**
  * Utility class to bind a event listener to a DOM element.
