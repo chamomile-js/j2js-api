@@ -556,7 +556,7 @@ j2js.createDelegate = function(elem, type, listener, useCapture) {
         }
         
         try {
-            j2js.invoke(listener, "handleEvent(j2js.w3c.dom.events.Event)void", [evt]);
+            j2js.invoke(listener, "handleEvent(org.w3c.dom.events.Event)void", [evt]);
         } catch(e) {
             j2js.println(j2js.invoke(e, "toString()java.lang.String", []));
         }
@@ -579,7 +579,7 @@ j2js.removeDelegate = function(elem, type, listener, useCapture) {
 j2js.createTimerDelegate = function(windowImpl, listener, delayInMillis, type) {
     var f = function() { 
         try {
-            j2js.invoke(listener, "handleEvent(j2js.w3c.dom.views.Window)void", [windowImpl]);
+            j2js.invoke(listener, "handleEvent(org.w3c.dom.views.Window)void", [windowImpl]);
         } catch(e) {
             j2js.println(j2js.invoke(e, "toString()java.lang.String", []));
         }
@@ -594,7 +594,7 @@ j2js.createTreeWalker = function(documentImpl, root, whatToShow, filter, entityR
 	var _filter = {
 		acceptNode : function(node) {
 			try {
-				return j2js.invoke(filter, "acceptNode(j2js.w3c.dom.Node)short", [ node ]);
+				return j2js.invoke(filter, "acceptNode(org.w3c.dom.Node)short", [ node ]);
 			} catch (e) {
 				j2js.println(j2js.invoke(e, "toString()java.lang.String", []));
 			}
