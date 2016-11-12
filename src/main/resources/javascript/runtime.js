@@ -118,6 +118,8 @@ function Clazz(name) {
 		this.name = "float";
 	else if (name === "D")
 		this.name = "double";
+	else if (name === "V")
+		this.name = "void";
 	else
 		this.name = name;
 
@@ -787,6 +789,8 @@ j2js.getContentDocument = function(svgObject) {
 }
 
 // ----------------------------------------------------------------------------
+
+j2js.dcC("V", 7); // void
 
 j2js.dcC("Z", 0); // boolean
 j2js.dcC("C", 1); // char
