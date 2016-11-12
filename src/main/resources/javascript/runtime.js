@@ -447,6 +447,8 @@ j2js.console_write = function(message) {
             j2js.console_init();
         }
         j2js.console_element.appendChild(document.createTextNode(message));
+        // scroll to bottom...
+        j2js.console_element.scrollIntoView(false);
     } catch (e) {
         alert("Could not print string:\n\t" + message + "\nfor reason:\n\t" + j2js.inspect(e)); 
     }
@@ -579,7 +581,7 @@ j2js.removeDelegate = function(elem, type, listener, useCapture) {
 j2js.createTimerDelegate = function(windowImpl, listener, delayInMillis, type) {
     var f = function() { 
         try {
-            j2js.invoke(listener, "handleEvent(org.w3c.dom.views.Window)void", [windowImpl]);
+            j2js.invoke(listener, "handleEvent(org.w3c.dom.window.Window)void", [windowImpl]);
         } catch(e) {
             j2js.println(j2js.invoke(e, "toString()java.lang.String", []));
         }
