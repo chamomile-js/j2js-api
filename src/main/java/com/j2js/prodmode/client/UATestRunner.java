@@ -1,5 +1,6 @@
 package com.j2js.prodmode.client;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
@@ -117,6 +118,17 @@ public class UATestRunner {
         }
         
         System.out.println("Invoking " + methodSignature);
-        method.invoke(testObject, (Object[]) null);
+        try {
+			method.invoke(testObject, (Object[]) null);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }
